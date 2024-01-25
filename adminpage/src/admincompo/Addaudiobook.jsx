@@ -1,8 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 
 const Addaudiobook = () => {
+  const navigate = useNavigate();
   const [audioBkCon, setaudioBkCon] = useState(null);
   const [audioBkImage, setaudioBkImage] = useState(null);
   const [audiobook, setAudiobook] = useState({
@@ -44,7 +46,7 @@ const Addaudiobook = () => {
 
       axios.post("http://localhost:3001/addaudiobook", data).then((res) => {
         alert(res.data.message);
-        // navigate("/books");
+        navigate("/audiobooks");
       });
     } else {
       alert("Invalid input");

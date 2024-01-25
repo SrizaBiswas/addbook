@@ -124,8 +124,11 @@ app.post(
   }
 );
 
-app.post("/get-books", async (req, res) => {
+app.post("/get-dbcollections", async (req, res) => {
+  const { books } = await req.body;
+  console.log(books);
   try {
+    // if (books == "books") {
     const bookInfo = await Book.find({});
 
     if (!bookInfo) {
@@ -133,6 +136,7 @@ app.post("/get-books", async (req, res) => {
     }
     console.log(bookInfo);
     return res.send({ message: "Data found", data: bookInfo });
+    // }
   } catch (error) {
     console.log(error);
   }
@@ -171,14 +175,14 @@ const audiobookSchema = new mongoose.Schema(
 
 const Audiobook = new mongoose.model("Audiobook", audiobookSchema);
 
-const audiostorage = multer.memoryStorage();
-const audioupload = multer({ storage: audiostorage });
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
 
 app.post(
   "/addaudiobook",
-  audioupload.fields([
+  upload.fields([
     { name: "audioBkImage", maxCount: 1 },
-    { name: " audioBkCon", maxCount: 1 },
+    { name: "audioBkCon", maxCount: 1 },
   ]),
   async (req, res) => {
     try {
