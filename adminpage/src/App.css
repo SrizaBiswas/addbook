@@ -433,3 +433,8 @@ a {
   gap: 2.5rem;
   transition: 0.3s ease;
 }
+/*test*/
+.main-book {
+  background-color: antiquewhite;
+  grid-area: main;
+}

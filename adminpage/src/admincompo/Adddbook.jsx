@@ -1,35 +1,56 @@
 import React from "react";
-
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 const Adddbook = () => {
-  //   const [book, setBook] = useState({
-  //     bknme: "",
-  //     authnme: "",
-  //     bkimage: "",
-  //     bkgenre: "",
-  //     desp: "",
-  //     bkcon: "",
-  //   });
+  const navigate = useNavigate();
+  const [bkCon, setBkCon] = useState(null);
+  const [bkImg, setBkImg] = useState(null);
+  const [book, setBook] = useState({
+    bkname: "",
+    authname: "",
+    bkgenre: "",
+    desp: "",
+  });
 
-  //   const handleChange = (e) => {
-  //     const { name, value } = e.target;
-  //     setBook({
-  //       ...book,
-  //       [name]: value,
-  //     });
-  //   };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setBook({
+      ...book,
+      [name]: value,
+    });
+  };
 
-  //   const addbook = (e) => {
-  //     e.preventDefault();
-  //     const { bknme, authnme, bkimage, bkgenre, desp, bkcon } = book;
-  //     if (bknme && authnme && bkimage && bkgenre && desp && bkcon) {
-  //       axios.post("http://localhost:3001/addbook", book).then((res) => {
-  //         alert(res.data.message);
-  //         navigate("/");
-  //       });
-  //     } else {
-  //       alert("invlid input");
-  //     }
-  //   };
+  // console.log(book);
+
+  const addbook = (e) => {
+    e.preventDefault();
+
+    const data = new FormData();
+
+    if (
+      book.bkname &&
+      book.authname &&
+      // bkImg &&
+      book.bkgenre &&
+      book.desp
+      // bkCon
+    ) {
+      data.set("bkname", book.bkname);
+      data.set("authname", book.authname);
+      data.set("bkImg", bkImg);
+      data.set("bkgenre", book.bkgenre);
+      data.set("desp", book.desp);
+      data.set("bkCon", bkCon);
+
+      axios.post("http://localhost:3001/addbook", data).then((res) => {
+        alert(res.data.message);
+        navigate("/books");
+      });
+    } else {
+      alert("Invlid input");
+    }
+  };
 
   return (
     <main className="main-bk">
@@ -40,7 +61,11 @@ const Adddbook = () => {
             <h2>Upload a Book</h2>
           </span>
         </div>
-        <form className="input-form">
+        <form
+          encType="multipart/form-data"
+          onSubmit={addbook}
+          className="input-form"
+        >
           <div className="outbk">
             <div className="innerbk">
               <div className="inputbk">
@@ -48,10 +73,11 @@ const Adddbook = () => {
                 <div className="input-flexbk">
                   <input
                     type="text"
-                    name="bknme"
-                    //value={book.bknme}
+                    name="bkname"
+                    value={book.bkname}
                     required
                     placeholder="Enter book name"
+                    onChange={handleChange}
                   ></input>
                 </div>
               </div>
@@ -60,24 +86,27 @@ const Adddbook = () => {
                 <div className="input-flexbk">
                   <input
                     type="text"
-                    name="authnme"
-                    // value={book.authnme}
+                    name="authname"
+                    value={book.authname}
                     required
                     placeholder="Author name"
+                    onChange={handleChange}
                   ></input>
                 </div>
               </div>
             </div>
             <div className="innerbk">
               <div className="inputbk">
-                <label htmlFor="bkimage">Book Cover Url</label>
+                <label htmlFor="bkimage">Book Cover Image</label>
                 <div className="input-flexbk">
                   <input
-                    type="text"
-                    name="bkimage"
-                    //value={book.bkimage}
+                    type="file"
+                    name="bkImg"
+                    // value={bkImg}
                     required
-                    placeholder="Book Image Url"
+                    accept=".jpg, .jpeg, .png"
+                    placeholder="Book Image Cover"
+                    onChange={(e) => setBkImg(e.target.files[0])}
                   ></input>
                 </div>
               </div>
@@ -87,9 +116,10 @@ const Adddbook = () => {
                   <input
                     type="text"
                     name="bkgenre"
-                    //value={book.bkgenre}
+                    value={book.bkgenre}
                     required
                     placeholder="Books Category"
+                    onChange={handleChange}
                   ></input>
                 </div>
               </div>
@@ -100,11 +130,12 @@ const Adddbook = () => {
                 <div className="input-flexbk">
                   <textarea
                     name="desp"
-                    // value={book.desp}
+                    value={book.desp}
                     id="myTextarea"
                     rows={2} // Set the number of visible rows
                     cols={55} // Set the number of visible columns
                     placeholder="Write books Description" // Placeholder text
+                    onChange={handleChange}
                   ></textarea>
                 </div>
               </div>
@@ -112,11 +143,13 @@ const Adddbook = () => {
                 <label htmlFor="bkgenre">Books Content</label>
                 <div className="input-flexbk">
                   <input
-                    type="text"
-                    name="bkcon"
-                    //value={book.bkcon}
+                    type="file"
+                    name="bkCon"
+                    // value={bkCon}
+                    accept=".pdf"
                     required
                     placeholder=" Add your books pdf"
+                    onChange={(e) => setBkCon(e.target.files[0])}
                   ></input>
                 </div>
               </div>

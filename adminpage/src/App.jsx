@@ -13,8 +13,7 @@ import Adddbook from "./admincompo/Adddbook";
 import Addpreuser from "./admincompo/Addpremiumuser";
 import AddGenre from "./admincompo/Addgenre";
 import AddUser from "./admincompo/Adduser";
-import AddAudio from "./admincompo/Addaudiobook"
-
+import AddAudio from "./admincompo/Addaudiobook";
 
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -34,9 +33,9 @@ function App() {
         <Router>
           <Routes>
             <Route exact path="/" element={<Homee />} />
-            <Route path="/books" element={<Books/>} />
-            <Route path="/audiobooks" element={<Audiobooks/>} />
-            <Route path="/genre" element={<Genre/>} />
+            <Route path="/books" element={<Books />} />
+            <Route path="/audiobooks" element={<Audiobooks />} />
+            <Route path="/genre" element={<Genre />} />
             <Route path="/customer" element={<Customer />} />
             <Route path="/inventory" element={<Inventory />} />
             <Route path="/addbook" element={<Adddbook />} />
